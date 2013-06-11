@@ -1,6 +1,6 @@
-## Rewrite base to good old wub wub wub
+
 server {
     listen   80;
     server_name %s ;
-    rewrite ^/(.*) http://www.%s/$1 permanent;
+    rewrite ^/(.*) http://www.%s/\$1 permanent;
 }

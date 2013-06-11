@@ -28,16 +28,12 @@ apt-get install -y curl
 apt-get install -y --force-yes nginx
 apt-get install -y php5-fpm
 apt-get install -y php5-mysql php5-curl php5-gd php5-intl php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-xcache
-apt-get install -y memcached php-pear build-essential
-apt-get install -y libmariadbclient-dev libmariadbclient18 libmariadbd-dev libmysqlclient18 mariadb-client mariadb-client-5.5 mariadb-client-core-5.5 mariadb-common mariadb-server mariadb-server-5.5 mariadb-server-core-5.5 mariadb-test mariadb-test-5.5 mysql-common
+apt-get install -y memcached php-pear php5-memcached build-essential
+apt-get install -q -y libmariadbclient-dev libmariadbclient18 libmariadbd-dev libmysqlclient18 mariadb-client mariadb-client-5.5 mariadb-client-core-5.5 mariadb-common mariadb-server mariadb-server-5.5 mariadb-server-core-5.5 mariadb-test mariadb-test-5.5 mysql-common
 apt-get install ajenti
 printf "\n" | pecl install memcache
 printf "\n" | pecl install gd
 echo "extension=memcache.so" > sudo /etc/php5/fpm/php.ini
-
-#memcached is a fucking pain in the ass
-#ref: http://enlook.wordpress.com/2011/07/27/howto-enabling-memcached-extension-on-php/
-apt-get install libevent-dev
 
 #lets install composer
 echo "Installing composer..."
@@ -72,7 +68,8 @@ service php5-fpm restart
 service mysql start
 
 #this file can create server blocks 
-cp /vagrant/server_configs/nginx /usr/bin
+cp /vagrant/nxcreate /usr/bin
+chmod +x /usr/bin/nxcreate
 
 updatedb
 

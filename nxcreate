@@ -20,8 +20,8 @@ function createServerBlock()
     if [ "$RESP" = "y" ] ; then
         echo "What is the directory name: "
         read input_variable
-        config_dir="include \/etc\/nginx\/$input_variable"
-    else 
+        config_dir="include \/etc\/nginx\/$input_variable\/*.conf"
+    else
         config_dir=""
     fi
 
@@ -30,8 +30,7 @@ function createServerBlock()
         #lets get the top of the server block that forces www
         www=$(</vagrant/templates/www.template)
         printf -v www_template "$www" $site_url $site_url 
-    else
-        www_template=false
+    else 
         www=""
     fi
 
@@ -44,22 +43,24 @@ function createServerBlock()
     fi
 
     #if the config directory does not exist then create it
-    if [ $config_dir ] && [ -d /etc/nginx/$config_dir ] ; then
-        cp /etc/nginx/$config_dir /etc/nginx/
+    if [[ -d /vagrant/server_configs/nginx/$config_dir ]] ; then
+        cp /vagrant/server_configs/nginx/$config_dir /etc/nginx/
     fi
+    
 
     #if we are forcing www make sure we have a www.
-    if [ $www_template != false ] ; then
+    if [[ -n $www_template ]] ; then
         site_url="www."${site_url/www./""}
         site_url="${site_url/\//\\//}"
     fi
-
+    if [[ -f /etc/nginx/sites-enabled/$site_url ]] ; then
+        rm /etc/nginx/sites-enabled/$site_url /etc/nginx/sites-available/$site_url
+    fi
+    if [[ -n $www_template ]] ; then
+        echo "$www_template" >  /etc/nginx/sites-available/$site_url
     #now lets get the server block
-    if [ $www_template ] ;then
-        echo "$www_template" > /vagrant/server_configs/server_blocks/$site_url
     fi
 
-    rm /etc/nginx/sites-enabled/$site_url /etc/nginx/sites-available/$site_url
     sed -e "s/URL/$site_url/g" -e "s/DIRECTORY/$site_dir/" -e "s/PRETTY_STUFF/$pretty_urls/" -e "s/CONF_D/$config_dir/" /vagrant/templates/server_block.template >> /etc/nginx/sites-available/$site_url
     
     ln -s /etc/nginx/sites-available/$site_url /etc/nginx/sites-enabled/
