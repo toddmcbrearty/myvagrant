@@ -1,0 +1,21 @@
+
+server {
+    listen   80;
+
+    server_name URL;
+
+    root /var/www/DIRECTORY;
+    index index.php index.html index.htm;
+
+    ## site specific config files
+    CONF_D
+
+    PRETTY_STUFF
+
+    #add php 
+    include /etc/nginx/global/*.conf;
+
+    ## Logs
+    access_log /var/log/nginx/URL.access.log;
+    error_log /var/log/nginx/URL.error.log;
+}
