@@ -44,7 +44,7 @@ function createServerBlock()
 
     #if the config directory does not exist then create it
     if [[ -d /vagrant/server_configs/nginx/$config_dir ]] ; then
-        cp /vagrant/server_configs/nginx/$config_dir /etc/nginx/
+        cp /vagrant/server_configs/nginx/$config_dir /etc/nginx/$config_dir
     fi
     
 
