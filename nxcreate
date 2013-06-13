@@ -20,7 +20,7 @@ function createServerBlock()
     if [ "$RESP" = "y" ] ; then
         echo "What is the directory name: "
         read input_variable
-        config_dir="include \/etc\/nginx\/$input_variable\/*.conf"
+        config_dir="include \/etc\/nginx\/$input_variable\/*.conf;"
     else
         config_dir=""
     fi
@@ -43,7 +43,7 @@ function createServerBlock()
     fi
 
     #if the config directory does not exist then create it
-    if [[ -d /vagrant/server_configs/nginx/$config_dir ]] ; then
+    if [ -d /vagrant/server_configs/nginx/"$config_dir" ] ; then
         cp /vagrant/server_configs/nginx/$config_dir /etc/nginx/$config_dir
     fi
     
@@ -53,12 +53,13 @@ function createServerBlock()
         site_url="www."${site_url/www./""}
         site_url="${site_url/\//\\//}"
     fi
+
     if [[ -f /etc/nginx/sites-enabled/$site_url ]] ; then
         rm /etc/nginx/sites-enabled/$site_url /etc/nginx/sites-available/$site_url
     fi
+
     if [[ -n $www_template ]] ; then
         echo "$www_template" >  /etc/nginx/sites-available/$site_url
-    #now lets get the server block
     fi
 
     sed -e "s/URL/$site_url/g" -e "s/DIRECTORY/$site_dir/" -e "s/PRETTY_STUFF/$pretty_urls/" -e "s/CONF_D/$config_dir/" /vagrant/templates/server_block.template >> /etc/nginx/sites-available/$site_url

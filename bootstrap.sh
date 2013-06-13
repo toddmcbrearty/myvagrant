@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-if [[ -f .loadedson ]]
+if [ -e /vagrant/.loadedson ] ; then
 	echo "You are loaded already. Get to work"
 else
 	# Sources ya dig
@@ -79,7 +79,7 @@ else
 
 	#once this file is created it will be checked on each vagrant up.
 	#if this file exists there is no need to run this script again
-	echo /vagrant/.loadedson > "if you remove this file vagrant will run bootstrap.sh on the next up even if all you did was halt."
+	echo "if you remove this file vagrant will run bootstrap.sh on the next up even if all you did was halt." > /vagrant/.loadedson 
 
 fi
 
