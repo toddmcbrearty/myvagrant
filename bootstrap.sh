@@ -18,6 +18,15 @@ else
 	echo 'deb http://repo.ajenti.org/debian main main' >> /etc/apt/sources.list
 	wget http://repo.ajenti.org/debian/key -O- | sudo apt-key add -
 
+	#prepare database password
+	export DEBIAN_FRONTEND=noninteractive
+	mysql_pass='morgen'
+	debconf-set-selections <<< 'mysql-server-5.1 mysql-server/root_password password '$mysql_pass''
+	debconf-set-selections <<< 'mysql-server-5.1 mysql-server/root_password_again password '$mysql_pass''
+
+	#add php repo to install php 5.4
+	add-apt-repository -y ppa:ondrej/php5
+
 	# Let's install a bunch of things/stuff
 	apt-get update
 	apt-get install -y python-software-properties
@@ -49,6 +58,7 @@ else
 	mkdir /etc/nginx/sites-available
 	mkdir /etc/nginx/sites-enabled
 	echo "Done creating sites-available and sites-enabled"
+	
 
 	#ok lets copy over all of our configs and we are good to go
 	cp /vagrant/server_configs/nginx/conf.d/php5.fpm.conf /etc/nginx/conf.d/
@@ -69,7 +79,7 @@ else
 	# These might already be started, but just give it a shot.
 	service nginx start
 	service php5-fpm restart
-	service mysql start
+	#service mysql start
 
 	#this file can create server blocks 
 	cp /vagrant/nxcreate /usr/bin
