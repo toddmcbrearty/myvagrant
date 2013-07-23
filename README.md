@@ -1,6 +1,11 @@
 myvagrant
 =========
 
+**DISCLAIMER
+THIS IS NOT MEANT TO BE USED AS A PRODUCTION SERVER. 
+THIS IS FOR LOCAL DEVELOPMENT ONLY. I WILL NOT BE RESPONSIBLE FOR 
+ANYTHING THAT GOES WRONG WITH IT.**
+
 This is my first working vagrant box. So I though I would share. 
 I am working on learning puppet for my next box then might as well give chef a try after that.
 
