@@ -36,7 +36,6 @@ else
 	apt-get install -y subversion
 	apt-get install -y libpcre3 libpcre3-dev make
 	apt-get install -y xvfb
-	apt-get install -y wkhtmltopdf
 	apt-get install -y curl
 	apt-get install -y --force-yes nginx
 	apt-get install -y php5-fpm
@@ -65,8 +64,16 @@ else
 	cp -R /vagrant/server_configs/nginx/global/ /etc/nginx/
 	cp /vagrant/server_configs/nginx/nginx.conf /etc/nginx
 	cp /vagrant/server_configs/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/
+	cp /vagrant/server_configs/php5/fpm/php.ini /etc/php5/fpm/
 	cp /vagrant/server_configs/mysql/my.cnf /etc/mysql/my.cnf
 
+
+	#double check we have the www folder in vagrant
+	if [ ! -d "/vagrant/www"]
+		then
+		mkdir /vagrant/www
+	fi
+	
 	# Symlink /vagrant/www/sites to /var/www if not done already (first run)
 	if [ ! -d "/var/www" ]
 	then
