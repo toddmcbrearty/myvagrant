@@ -55,5 +55,7 @@ This will create your server_block in sites_available and symlink it to sites-en
 
 If you want to be able to access mysql remotely log into mysql via ssh
 then run this command
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'morgen' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON \*.\* TO 'root'@'%' IDENTIFIED BY 'morgen' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+RESTART?
 
