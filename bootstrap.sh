@@ -23,9 +23,9 @@ else
 	add-apt-repository -y ppa:ondrej/php5-oldstable
 
 	# Let's install a bunch of things/stuff
-	apt-get update
 	apt-get install -y python-software-properties
 	add-apt-repository ppa:nginx/stable
+	apt-get update
 	apt-get install -y vim-nox
 	apt-get install -y git
 	apt-get install -y subversion
