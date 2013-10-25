@@ -13,11 +13,6 @@ else
 	echo 'deb-src http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main' >> /etc/apt/sources.list
 	apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 1BB943DB
 
-
-	#get ajenti shit
-	echo 'deb http://repo.ajenti.org/debian main main' >> /etc/apt/sources.list
-	wget http://repo.ajenti.org/debian/key -O- | sudo apt-key add -
-
 	#prepare database password
 	export DEBIAN_FRONTEND=noninteractive
 	mysql_pass='morgen'
@@ -25,7 +20,7 @@ else
 	debconf-set-selections <<< 'mysql-server-5.1 mysql-server/root_password_again password '$mysql_pass''
 
 	#add php repo to install php 5.4
-	add-apt-repository -y ppa:ondrej/php5
+	add-apt-repository -y ppa:ondrej/php5-oldstable
 
 	# Let's install a bunch of things/stuff
 	apt-get update
@@ -40,9 +35,9 @@ else
 	apt-get install -y --force-yes nginx
 	apt-get install -y php5-fpm
 	apt-get install -y php5-mysql php5-curl php5-gd php5-intl php5-imagick php5-imap php5-mcrypt php5-memcache php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-xcache
+	apt-get install -y php5
 	apt-get install -y memcached php-pear php5-memcached build-essential
 	apt-get install -q -y libmariadbclient-dev libmariadbclient18 libmariadbd-dev libmysqlclient18 mariadb-client mariadb-client-5.5 mariadb-client-core-5.5 mariadb-common mariadb-server mariadb-server-5.5 mariadb-server-core-5.5 mariadb-test mariadb-test-5.5 mysql-common
-	apt-get install ajenti
 	printf "\n" | pecl install memcache
 	printf "\n" | pecl install gd
 	echo "extension=memcache.so" > sudo /etc/php5/fpm/php.ini
