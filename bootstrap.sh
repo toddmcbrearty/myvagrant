@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
-
+#v2
 
 if [ -e /vagrant/.loadedson ] ; then
 	echo "You are loaded already. Get to work"
 else
-	# Sources ya dig
-	echo 'deb http://nginx.org/packages/ubuntu/ lucid nginx' >> /etc/apt/sources.list
-	echo 'deb http://nginx.org/packages/ubuntu/ lucid nginx' >> /etc/apt/sources.list
 
-	#add mariadb
-	# echo 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main' >> /etc/apt/sources.list
-	# echo 'deb-src http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main' >> /etc/apt/sources.list
-	# apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 1BB943DB
 
 
 	#prepare database password
@@ -22,12 +15,13 @@ else
 
 	#add php repo to install php 5.4
 	add-apt-repository -y ppa:ondrej/php5-oldstable
+	add-apt-repository -y ppa:ondrej/mysql-5.6
+	https://launchpad.net/~ondrej/+archive/mysql-5.6
 
 	# Let's install a bunch of things/stuff
 	apt-get install -y python-software-properties
 	add-apt-repository ppa:nginx/stable
 	apt-get update --fix-missing
-	# apt-get upgrade
 	apt-get install -y vim-nox
 	apt-get install -y git
 	apt-get install -y subversion
@@ -36,27 +30,11 @@ else
 	apt-get install -y curl
 	apt-get install -y --force-yes -f nginx
 	apt-get install -y php5-fpm
-	apt-get install -y php5-mysql php5-curl php5-gd php5-intl php5-imagick php5-imap php5-mcrypt php5-memcache php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-xcache
-	apt-get install -y php5
-	apt-get install -y memcached php-pear php5-memcached build-essential
-	# apt-get install -q -y libmariadbclient-dev libmariadbclient18 libmariadbd-dev libmysqlclient18 mariadb-client mariadb-client-5.5 mariadb-client-core-5.5 mariadb-common mariadb-server mariadb-server-5.5 mariadb-server-core-5.5 mariadb-test mariadb-test-5.5 mysql-common
-	# apt-get install -q -y mysql-server-5.5 mysql-client-5.5 mysql-client-core-5.5
-	printf "\n" | pecl install memcache
-	printf "\n" | pecl install gd
-	echo "extension=memcache.so" > sudo /etc/php5/fpm/php.ini
+	apt-get install -y php5 php5-mysql php5-curl php5-gd php5-memcached php5-gd php5-intl php5-imagick php5-imap php5-mcrypt php5-memcache php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-xcache
+	apt-get install -y php-pear build-essential
+	apt-get install -y mysql-client
 
-	#mysql 5.6
-	apt-get install -y mysql-server-5.5
-	wget -O mysql-5.6.deb https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.14-debian6.0-x86_64.deb/from/http://cdn.mysql.com/
-	dpkg -i  mysql-5.6.deb
-	apt-get install -y libaio1
-	cp /opt/mysql/server-5.6/support-files/mysql.server /etc/init.d/mysql.server
-	update-rc.d -f mysql remove
-	update-rc.d mysql.server defaults
-	echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/mysql/server-5.6/bin"' > /etc/environment
-	service mysql stop 
-	service mysql.server start
-	/opt/mysql/server-5.6/scripts/mysql_install_db --user=mysql --datadir=/var/lib/mysql
+	
 
 
 	#lets install composer
