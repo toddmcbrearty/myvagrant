@@ -14,7 +14,8 @@ Feel free to contact me with any questions or concerns.
 This box has...
 * Ubuntu 12.04 LTS
 * PHP-FPM 5.3.1
-* MariaDB 5.5.32
+* ~~MariaDB 5.5.32~~
+* MySql 5.6
 * Nginx 1.4.2
 
 Extras are...
