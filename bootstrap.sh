@@ -49,6 +49,9 @@ else
 	#change nginx worker connections
 	sed -i 's/worker_connections 768/worker_connections 1024/g' /etc/nginx/nginx.conf
 
+	#change nginx sendfile to off
+	sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf
+
 	#add the local environment to the fastcgi_params
 	echo "fastcgi_param ENVIRONMENT    local;" >> /etc/nginx/fastcgi_params
 	 
