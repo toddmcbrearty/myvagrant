@@ -35,8 +35,11 @@
   template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf owner=root group=root mode=0644
 
     
-- name: Composer
-  command: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+- name: Get Composer
+  command: curl -o /tmp/composer -sS https://getcomposer.org/installer 
+
+- name: Install Composer
+  command: php composer chdir=/tmp
 
 # PHP dot INI
 - name: php config
