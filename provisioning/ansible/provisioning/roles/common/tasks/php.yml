@@ -1,0 +1,49 @@
+---
+
+- name: nginx repo
+  apt_repository: repo='ppa:ondrej/php5-oldstable' update_cache=yes
+
+  # php.yml
+# Install required PHP packages
+- name: apt php
+  apt: pkg=$item state=present
+  with_items:
+    - php5-cli
+    - php5-mysql
+    - php5-mcrypt
+    - php5-gd
+    - php5-memcached
+    - php5-curl
+    - php-pear
+    - php5-fpm
+    - php5-intl
+    - php5-imagick
+    - php5-imap
+    - php5-memcache
+    - php5-ps
+    - php5-pspell
+    - php5-recode
+    - php5-snmp
+    - php5-sqlite
+    - php5-tidy
+    - php5-xmlrpc
+    - php5-xsl
+    - php5-xcache
+
+# FPM
+- name: fpm config
+  template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf owner=root group=root mode=0644
+
+    
+- name: Composer
+  command: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+
+# PHP dot INI
+- name: php config
+  template: src=php.ini.j2 dest=/etc/php5/fpm/php.ini owner=root group=root mode=0644
+  notify:
+    - restart php5-fpm
+
+
+
+

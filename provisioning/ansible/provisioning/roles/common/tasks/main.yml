@@ -1,0 +1,7 @@
+# main.yml
+# Wrapper for sub tasks
+- include: default.yml
+- include: webserver.yml
+- include: mysql.yml
+- include: php.yml
+

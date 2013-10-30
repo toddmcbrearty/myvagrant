@@ -1,0 +1,24 @@
+---
+# all.yml
+
+# Ansible fact should do this TO FIX
+ubuntu_release: raring
+
+## MySQL
+# Root password for MySQL
+mysql_root: morgen
+# Blank or line arguement like skip-external-locking
+skip_external_locking:
+# Blank or line arguement like: bind-address = 127.0.0.1
+bind_address:
+
+# Service user FPM n NGINX
+service_user: vagrant
+
+## NGINX 
+# Worker connections
+worker_connections: 1024
+
+## PHP
+# Dispaly errors On or Off
+php_errors: On

@@ -1,0 +1,13 @@
+---
+# mysql.yml
+- name: Set debconf
+  command: echo mysql-server mysql-server/root_password password {{mysql_root}} | sudo /usr/bin/debconf-set-selections
+  
+- name: mysql repo
+  apt_repository: repo='ppa:nginx/stable' update_cache=yes
+
+- name: apt mysql server
+  apt: pkg=mysql-server state=present
+  
+- name: apt mysql client
+  apt: pkg=mysql-client state=present
