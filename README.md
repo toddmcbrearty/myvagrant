@@ -20,9 +20,9 @@ This box has...
 
 Extras are...
 * Composer
-* Ajenti
+* ~~Ajenti~~
 * Git
-* Subversion
+* ~~Subversion~~
 
 Use the insecure_private_key.ppk to ssh in or you can just use 
 username: vagrant
