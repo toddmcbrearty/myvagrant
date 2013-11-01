@@ -42,42 +42,49 @@ else
 	echo "Composer installed"
 	
 
-	#ok lets copy over all of our configs and we are good to go
+	echo "This will one day be gone but for now coping this file over"
 	cp /vagrant/server_configs/nginx/conf.d/php5.fpm.conf /etc/nginx/conf.d/
+
+	echo "Changing nginx user to vagrant so things work better"
 	#change nginx user to vagrant
 	sed -i 's/user nginx/user vagrant/g' /etc/nginx/nginx.conf
+	
+	echo "Changing connections to 1024. It's a bigger number it must work better"
 	#change nginx worker connections
 	sed -i 's/worker_connections 768/worker_connections 1024/g' /etc/nginx/nginx.conf
 
+	echo "Turning off sendfile. Trust me you need this off with this setup"
 	#change nginx sendfile to off
 	sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf
 
+	echo "Creating an ENVIRONMENT variable set to local"
 	#add the local environment to the fastcgi_params
 	echo "fastcgi_param ENVIRONMENT    local;" >> /etc/nginx/fastcgi_params
 	 
+	echo "Changing php user and group name to vagrant. The permissions will actually work"
 	#change php www.pool
 	sed -i 's/user = vagrant/user = vagrant/g' /etc/php5/fpm/pool.d/www.conf 
 	sed -i 's/group = vagrant/group = vagrant/g' /etc/php5/fpm/pool.d/www.conf
 
+	echo "It is a local development box. Probably want PHP errors on. Turing on now"
 	#show php errors
 	sed -i 's/display_errors = Off/display_errors = On/g' /etc/php5/fpm/php.ini
 
+	echo "Making mysql available remotely. Just remember how unsecure this is. NOT FOR ANYTHING OTHER THAN LOCAL DEVELOPMENT!"
 	#comment mysql conf lines to allow remote connection
 	sed -i 's/skip-external-locking/#skip-external-locking/g' /etc/mysql/my.cnf
 	sed -i 's/bind-address/#bind-address/g' /etc/mysql/my.cnf
 
 
 
-
-	# cp /vagrant/server_configs/php5/fpm/php.ini /etc/php5/fpm/
-	# cp /vagrant/server_configs/mysql/my.cnf /etc/mysql/my.cnf
-
-
 	#double check we have the www folder in vagrant
-	echo "Make sure we have  a www folder"
+	echo "Make sure we have a www folder"
 	if [ ! -d "/vagrant/www" ]
 		then
 		mkdir /vagrant/www
+		echo "Where did your www folder go? The repo came with one. Well looks like i'll have to make it for you"
+	else
+		echo "www directory exists. NEXT!!!"
 	fi
 
 	# Symlink /vagrant/www/sites to /var/www if not done already (first run)
@@ -91,16 +98,23 @@ else
 	fi
 
 	# These might already be started, but just give it a shot.
-	echo "Restarting everything"
+	echo "Restarting nginx"
 	service nginx start
+
+	echo "Restarting PHP"
 	service php5-fpm restart
-	# service mysql restart
+
+	#allow mysql to be access remotely
+	echo "Giving root user remote accress for mysql"
+	mysql -uroot --password=morgen < "remote.sql"
+	service mysql restart
 
 	#this file can create server blocks 
 	echo "Setting up nxcreate";
 	cp /vagrant/nxcreate /usr/bin
 	chmod +x /usr/bin/nxcreate
 
+	echo "might as well update the local db so you can bang a sweet locate right off the bat if you wanted to"
 	updatedb
 
 	# once this file is created it will be checked on each vagrant up.

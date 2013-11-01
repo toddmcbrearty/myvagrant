@@ -23,6 +23,6 @@ echo "vagrant reload                    Reload vagrant configuration. The equiva
 echo "vagrant destroy                   This will delete your virtual machine. You can use vagrant up to bring it back"
 echo "                                  but it will take a while to complete."
 echo "Eat well and be merry."
-echo ""
+echo "I HOLD ABSOLUTELY NOT RESPONSIBILITY FOR ANYTHING LOST OR STOLEN"
 echo ""
 echo ""
