@@ -106,7 +106,7 @@ else
 
 	#allow mysql to be access remotely
 	echo "Giving root user remote accress for mysql"
-	mysql -uroot --password=morgen < "remote.sql"
+	mysql -uroot -p morgen < "/vagrant/remote.sql"
 	service mysql restart
 
 	#this file can create server blocks 
