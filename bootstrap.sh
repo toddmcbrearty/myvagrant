@@ -27,7 +27,7 @@
 
 	sudo apt-get install -y vim-nox git libpcre3 libpcre3-dev make xvfb curl
 	sudo apt-get install -y --force-yes -f nginx
-	sudo apt-get install -y php5-fpm php5 php5-mysql php5-curl php5-gd php5-memcached \
+	sudo apt-get install -y php5-fpm php5-dev php5 php5-mysql php5-curl php5-gd php5-memcached \
 							php5-gd php5-intl php5-imagick php5-imap php5-mcrypt php5-memcache \
 							php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc \
 							php5-xsl php5-xcache php-pear build-essential
