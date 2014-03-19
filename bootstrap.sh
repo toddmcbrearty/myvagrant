@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
 #v2
 
-if [ -e /vagrant/.loadedson ] ; then
-	echo "You are loaded already. Get to work"
-else
 
 	#prepare database password
 	export DEBIAN_FRONTEND=noninteractive
 	mysql_pass='morgen'
-	debconf-set-selections <<< 'mysql-server-5.1 mysql-server/root_password password '$mysql_pass''
-	debconf-set-selections <<< 'mysql-server-5.1 mysql-server/root_password_again password '$mysql_pass''
+	debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password '$mysql_pass''
+	debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password '$mysql_pass''
 	apt-get update
 	# Let's install a bunch of things/stuff
 	apt-get install -y python-software-properties
 
-	#add php repo to install php 5.4
-	add-apt-repository -y ppa:ondrej/php5-oldstable
+	#add php repo to install php 5.5
+	add-apt-repository -y ppa:ondrej/php5
 	add-apt-repository -y ppa:ondrej/mysql-5.6
 	https://launchpad.net/~ondrej/+archive/mysql-5.6
 	add-apt-repository ppa:nginx/stable
 	
 	apt-get update 
+
+	apt-get install snmp
 
 	apt-get --purge remove mysql-common
 	apt-get install -y --force-yes mysql-server 
@@ -117,11 +116,6 @@ else
 	echo "might as well update the local db so you can bang a sweet locate right off the bat if you wanted to"
 	updatedb
 
-	# once this file is created it will be checked on each vagrant up.
-	# if this file exists there is no need to run this script again
-	echo "if you remove this file vagrant will run bootstrap.sh on the next up even if all you did was halt." > /vagrant/.loadedson 
-
-fi
 
 #you know we always want to see the ascii
 # Print out some dope ascii art son
