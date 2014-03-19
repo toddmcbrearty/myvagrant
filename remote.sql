@@ -1,2 +1,2 @@
-GRANT ALL ON *.* TO '*'@'%'' IDENTIFIED BY 'morgen';
+GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'morgen';
 flush privileges;

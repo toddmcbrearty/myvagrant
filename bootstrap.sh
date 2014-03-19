@@ -24,6 +24,7 @@
 	apt-get --purge remove mysql-common
 	apt-get install -y --force-yes mysql-server 
 	apt-get install -y --force-yes mysql-client
+	apt-get install -y memcached
 
 	sudo apt-get install -y vim-nox git libpcre3 libpcre3-dev make xvfb curl
 	sudo apt-get install -y --force-yes -f nginx
