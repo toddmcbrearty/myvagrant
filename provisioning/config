@@ -1,0 +1,5 @@
+# config
+# Bash provision config
+ targpath=/opt/boxes
+ targvbox=death
+ fpath=$targpath/$targvbox

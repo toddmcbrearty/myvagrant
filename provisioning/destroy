@@ -1,0 +1,9 @@
+#!/bin/bash -e
+# destroy
+source config
+
+echo "Destroying $targvbox . . . "
+cd $fpath
+vagrant destroy -f
+cd -
+rm -rf $fpath

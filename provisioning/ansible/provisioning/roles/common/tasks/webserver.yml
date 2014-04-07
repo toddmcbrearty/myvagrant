@@ -1,0 +1,54 @@
+# webserver.yml
+# Install required NGINX PPA and configure
+- name: nginx repo
+  apt_repository: repo='ppa:nginx/stable' update_cache=yes
+
+- name: apt nginx
+  apt: pkg=nginx state=present
+
+#- name: remove sites-enabled
+#  file: path=/etc/nginx/sites-enabled state=absent
+
+- name: remove sites-available
+  file: path=/etc/nginx/sites-available state=absent
+
+- name: create sites-available
+  file: path=/etc/nginx/sites-available owner=root group=root mode=0755 state=directory
+
+- name: Create Global directory
+  file: path=/etc/nginx/global owner=root group=root mode=0755 state=directory
+
+
+# Don't restart just provisioning man
+- name: Copy files conf.d
+  copy: src=$item dest=/etc/nginx/conf.d/$item owner=root group=root mode=0644
+  with_items:
+     - php5.fpm.conf
+
+
+- name: Copy nxcreate
+  copy: src=nxcreate dest=/usr/bin/nxcreate owner=root group=root mode=0755
+  with_items:
+     - nginx.conf
+
+#- name: COPY A LIST OF FILES
+#  copy: src=$item dest=/etc/nginx/global/$item owner=root group=root mode=0644
+#  with_items:
+#     - F1
+#     - F2
+
+- name: Create Nginx Main
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+  notify:
+    - restart nginx
+
+#- name: CREATE  WITH A TEMPLATE LIST OF FILES
+#  template: src={{item.src}} dest=/etc/nginx/sites-enabled/{{item.dest}} owner=root group=root mode=0644
+#  with_items:
+#     - { src: 'foo.conf.j2', dest: 'foo.conf'}
+
+#- name: LINK EXAMPLE
+#  file: src=/etc/nginx/sites-available/$item dest=/etc/nginx/sites-enabled/$item
+#  with_items:
+#    - foo.conf
+

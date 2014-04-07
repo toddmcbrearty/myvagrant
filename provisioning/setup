@@ -1,0 +1,26 @@
+#!/bin/bash -e
+## Simple wrapper
+# Work in progress don't hate
+
+
+#if [ ! "$1" ]; then
+# read -p "Provision Target (vagrant/ec2): " targ
+#fi
+
+#if [ "$targ" == "vagrant" ]; then
+# read -p "Full path to setup the vbox (e.g. /opt/boxes): " targpath
+# read -p "Name of this deploy (e.g mytestbox):" targvbox
+ # Copy Vagrant stuffs
+source config
+
+echo "Launching $targvbox . . . "
+
+ mkdir -p $fpath
+
+ cp -r vagrant/* $fpath
+ cp -r ansible/provisioning $fpath/
+
+#fi
+
+cd $fpath
+vagrant up

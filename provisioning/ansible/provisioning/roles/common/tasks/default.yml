@@ -1,0 +1,51 @@
+---
+
+# apt.yml
+
+# Global Apt settings
+
+# Update Apt cache
+- name: update cache if not done so recently
+  apt: update_cache=yes cache_valid_time=3600
+
+# Packages non fancy style
+- name: install default packages
+  apt: pkg=$item state=present
+  with_items:
+    - build-essential
+    - curl
+    - python-software-properties
+    - screen
+    - lynx
+    - mysql-common
+    - xvfb
+    - subversion
+    - git
+    - ntp
+    - python-apt
+    - python-pycurl    
+
+
+# Setup NTP
+# This is not going to cut it for maintained host (next 3 blocks will always restart)
+- name: stop ntp service
+  service: name=ntp state=stopped
+
+- name: ntpdate
+  command: ntpdate 0.ubuntu.pool.ntp.org
+
+- name: start ntp service
+  service: name=ntp state=started enabled=yes
+
+- name: ntp config file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf owner=root group=root mode=0644
+  notify:
+    - restart ntp
+
+- name: Enable backports and universe
+  apt_repository: repo='deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}}-backports main restricted universe multiverse' update_cache=yes state=present
+  apt_repository: repo='deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}}-backports main restricted universe multiverse' update_cache=yes state=present
+  apt_repository: repo='deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}} multiverse' update_cache=yes state=present
+  apt_repository: repo='deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}}-updates multiverse' update_cache=yes state=present
+  apt_repository: repo='deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}} multiverse' update_cache=yes state=present
+  apt_repository: repo='deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}}-updates multiverse' update_cache=yes state=present
